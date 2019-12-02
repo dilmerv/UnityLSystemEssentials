@@ -1,7 +1,7 @@
-using System.Collections;
-using System;
-using UnityEngine;
+
+using System;using UnityEngine;
 using System.Collections.Generic;
+using DilmerGames.Core.Utilities;
 
 [RequireComponent(typeof(LineRenderer))]
 public class LSystemTurtle : MonoBehaviour 
@@ -11,7 +11,7 @@ public class LSystemTurtle : MonoBehaviour
 
     [SerializeField]
     [Range(1, 100)]
-    private float lineLength = 5.0f;
+    public float lineLength = 5.0f;
 
     [SerializeField]
     [Range(-100, 100)]
@@ -19,7 +19,7 @@ public class LSystemTurtle : MonoBehaviour
 
     [SerializeField]
     [Range(1,5)]
-    private int numberOfGenerations = 1;
+    public int numberOfGenerations = 1;
 
     private LineRenderer lineRenderer;
 
@@ -31,8 +31,17 @@ public class LSystemTurtle : MonoBehaviour
 
     private List<GameObject> lines = new List<GameObject>();
 
-    void Awake() 
+    public bool generateRandomMaterial = false;
+
+    private Material randomMaterial;
+
+    private void Start() 
     {
+        if(generateRandomMaterial)
+        {
+            randomMaterial = MaterialUtils.CreateMaterialWithRandomColor($"{gameObject.name}_material");
+        }
+
         Generate();
     }
 
@@ -163,7 +172,7 @@ public class LSystemTurtle : MonoBehaviour
         newLine.useWorldSpace = true;
         newLine.positionCount = 2;
         newLine.tag = "Line";
-        newLine.material = lineRenderer.material;
+        newLine.material = generateRandomMaterial ? randomMaterial : lineRenderer.material;
         newLine.startColor = lineRenderer.startColor;
         newLine.endColor = lineRenderer.endColor;
         newLine.startWidth = lineRenderer.startWidth;

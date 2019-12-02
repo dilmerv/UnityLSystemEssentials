@@ -10,9 +10,13 @@ Results from various examples taught in YouTube:
 
 <img src="https://github.com/dilmerv/UnityLSystemEssentials/blob/master/docs/images/lsystemmanual.gif" width="300">
 
-- Automatically create trees through a LSystemTutleRandommizer which hooks with LSystemTurtle for generating parameters randomly (Scene -> LSystemManual.unity)
+- Automatically create trees through a LSystemTutleRandommizer which hooks with LSystemTurtle for generating parameters randomly (Scene -> LSystemAutoRandom.unity)
 
 <img src="https://github.com/dilmerv/UnityLSystemEssentials/blob/master/docs/images/lsystemauto.gif" width="300">
+
+- Automatically creates Colored Trees (Scene -> LSystemAutoRandomWithColor.unity)
+
+<img src="https://github.com/dilmerv/UnityLSystemEssentials/blob/master/docs/images/lsystemautocolor.gif" width="300">
 
 - Predefined LSystemTutle set to 5 generation iterations (Scene -> LSystem5Generations.unity)
 
