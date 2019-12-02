@@ -81,12 +81,12 @@ public class LSystemTurtle : MonoBehaviour
         
         // Note: transform.position.x and y is for offset when multiple trees are placed
         // first point
-        newLine.SetPosition(0, new Vector3(state.x + transform.position.x, state.y + transform.position.y, 0));        
+        newLine.SetPosition(0, new Vector3(state.x + transform.position.x, state.y + transform.position.y, transform.position.z));        
         
         CheckAngles();
 
         // second point
-        newLine.SetPosition(1, new Vector3(state.x + transform.position.x, state.y + transform.position.y, 0));
+        newLine.SetPosition(1, new Vector3(state.x + transform.position.x, state.y + transform.position.y, transform.position.z));
 
         currentLine++;
     }   
