@@ -1,6 +1,6 @@
 # Unity L-System Essentials
 
-This repository contains a variety of examples created while making a new video series in YouTube about Unity L-System algoritm for generating procedural trees and abstract shapes made out of Line Renders.
+This repository contains a variety of examples created while making a new video series in YouTube about Unity L-System algorithm for generating procedural trees and abstract shapes made out of Line Renders.
 
 As a way to give back please subscribe to my [YouTube](https://www.youtube.com/c/dilmervalecillos) channel thank you !
 
