@@ -16,7 +16,7 @@ Results from various examples taught in YouTube:
 
 - Automatically creates Colored Trees (Scene -> LSystemAutoRandomWithColor.unity)
 
-<img src="https://github.com/dilmerv/UnityLSystemEssentials/blob/master/docs/images/lsystemautocolor.gif" width="300">
+<img src="https://github.com/dilmerv/UnityLSystemEssentials/blob/master/docs/images/lsystemautocolor.png" width="300">
 
 - Predefined LSystemTutle set to 5 generation iterations (Scene -> LSystem5Generations.unity)
 
