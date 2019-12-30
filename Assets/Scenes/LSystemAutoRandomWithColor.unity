@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &26926074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +178,7 @@ MonoBehaviour:
       ruleReplacement: FF+[+F-F-F]-[-F+F+F]
   lineLength: 2
   angle: -20
+  ignoreZ: 1
   numberOfGenerations: 2
   generateRandomMaterial: 0
 --- !u!120 &26926076
@@ -598,8 +599,8 @@ MonoBehaviour:
   maxAngle: 60
   minLineLength: 1.5
   maxLineLength: 3
-  minNumberOfGenerations: 2
-  maxNumberOfGenerations: 4
+  minNumberOfGenerations: 3
+  maxNumberOfGenerations: 3
   generateRandomMaterial: 1
 --- !u!114 &1867334120
 MonoBehaviour:
@@ -620,6 +621,7 @@ MonoBehaviour:
       ruleReplacement: FF+[+F-F-F]-[-F+F+F]
   lineLength: 1
   angle: -30
+  ignoreZ: 0
   numberOfGenerations: 4
   generateRandomMaterial: 0
 --- !u!120 &1867334121
@@ -665,7 +667,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.05
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:

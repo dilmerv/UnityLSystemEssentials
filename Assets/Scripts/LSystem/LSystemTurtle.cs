@@ -1,5 +1,6 @@
 
-using System;using UnityEngine;
+using System;
+using UnityEngine;
 using System.Collections.Generic;
 using DilmerGames.Core.Utilities;
 
@@ -14,9 +15,22 @@ public class LSystemTurtle : MonoBehaviour
     public float lineLength = 5.0f;
 
     [SerializeField]
+    [Range(0.05f, 0.20f)]
+    public float lineWidth = 0.1f;
+
+    [SerializeField]
     [Range(-100, 100)]
     public float angle = 10;
 
+    [SerializeField]
+    public bool ignoreZ = true;
+    
+    [HideInInspector]
+    public bool generateRandomMaterial = false;
+    
+    [HideInInspector]
+    public bool generateMultipleMaterial = false;
+    
     [SerializeField]
     [Range(1,5)]
     public int numberOfGenerations = 1;
@@ -31,17 +45,11 @@ public class LSystemTurtle : MonoBehaviour
 
     private List<GameObject> lines = new List<GameObject>();
 
-    public bool generateRandomMaterial = false;
-
     private Material randomMaterial;
 
     private void Start() 
     {
-        if(generateRandomMaterial)
-        {
-            randomMaterial = MaterialUtils.CreateMaterialWithRandomColor($"{gameObject.name}_material");
-        }
-
+        
         Generate();
     }
 
@@ -61,6 +69,11 @@ public class LSystemTurtle : MonoBehaviour
         {
             Debug.LogError("You must have at least one rule defined");
             enabled = false;
+        }
+
+        if(generateRandomMaterial)
+        {
+            GenerateRandomMaterial();
         }
 
         lineRenderer = GetComponent<LineRenderer>();
@@ -86,16 +99,21 @@ public class LSystemTurtle : MonoBehaviour
 
         lines.Add(lineGo);
 
+        if (generateMultipleMaterial)
+        {
+            GenerateRandomMaterial();
+        }
+
         LineRenderer newLine = SetupLine(lineGo);
         
         // Note: transform.position.x and y is for offset when multiple trees are placed
         // first point
-        newLine.SetPosition(0, new Vector3(state.x + transform.position.x, state.y + transform.position.y, transform.position.z));        
+        newLine.SetPosition(0, new Vector3(state.x + transform.position.x, state.y + transform.position.y, ignoreZ ? transform.position.z : state.z + transform.position.z));        
         
         CheckAngles();
 
         // second point
-        newLine.SetPosition(1, new Vector3(state.x + transform.position.x, state.y + transform.position.y, transform.position.z));
+        newLine.SetPosition(1, new Vector3(state.x + transform.position.x, state.y + transform.position.y, ignoreZ ? transform.position.z : state.z + transform.position.z));
 
         currentLine++;
     }   
@@ -121,6 +139,7 @@ public class LSystemTurtle : MonoBehaviour
         {
             state.x += float.Parse((Math.Sin(state.angle / 100)).ToString());
             state.y += float.Parse((Math.Cos(state.angle / 100)).ToString());
+            state.z += float.Parse((Math.Cos(state.angle / 100)).ToString());
         }
         else
         {
@@ -134,8 +153,9 @@ public class LSystemTurtle : MonoBehaviour
         {
             x = 0,
             y = 0,
+            z = 0,
             size = lineLength,
-            angle = 0
+            angle = state.angle
         };
 
         string sentence = lSystem.GeneratedSentence;
@@ -154,7 +174,7 @@ public class LSystemTurtle : MonoBehaviour
                 state.angle += angle;
                 break;
                 case '-':
-                state.angle -= angle;
+                state.angle -= angle;  
                 break;
                 case '[':
                 savedState.Push(state.Clone());
@@ -166,6 +186,11 @@ public class LSystemTurtle : MonoBehaviour
         }
     }
 
+    private void GenerateRandomMaterial()
+    {
+        randomMaterial = MaterialUtils.CreateMaterialWithRandomColor($"{gameObject.name}_material");
+    }
+
     private LineRenderer SetupLine(GameObject lineGo)
     {
         var newLine = lineGo.AddComponent<LineRenderer>();
@@ -175,8 +200,8 @@ public class LSystemTurtle : MonoBehaviour
         newLine.material = generateRandomMaterial ? randomMaterial : lineRenderer.material;
         newLine.startColor = lineRenderer.startColor;
         newLine.endColor = lineRenderer.endColor;
-        newLine.startWidth = lineRenderer.startWidth;
-        newLine.endWidth = lineRenderer.endWidth;
+        newLine.startWidth = lineWidth;
+        newLine.endWidth = lineWidth;
         newLine.numCapVertices = 5;
         return newLine;
     }

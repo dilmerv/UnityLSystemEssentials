@@ -156,8 +156,12 @@ MonoBehaviour:
     - ruleCharacter: 70
       ruleReplacement: FF+[+F-F-F]-[-F+F+F]
   lineLength: 1
+  lineWidth: 0.25
   angle: -30
-  numberOfGenerations: 4
+  ignoreZ: 1
+  generateRandomMaterial: 0
+  generateMultipleMaterial: 0
+  numberOfGenerations: 2
 --- !u!120 &26926076
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -201,7 +205,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.05
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -214,6 +218,24 @@ LineRenderer:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5092649
+        value: 0.8295454
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

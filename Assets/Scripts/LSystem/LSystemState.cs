@@ -7,6 +7,7 @@ public class LSystemState
     public float angle;
     public float x;
     public float y;
+    public float z;
 
     public LSystemState Clone() 
     { 
@@ -15,6 +16,6 @@ public class LSystemState
 
     public override string ToString()
     {
-        return $"x: {x} y: {y} size: {size} angle: {angle}";
+        return $"x: {x} y: {y} z: {z} size: {size} angle: {angle}";
     }
 }
