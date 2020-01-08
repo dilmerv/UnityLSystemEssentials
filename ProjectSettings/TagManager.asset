@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Line
+  - Leaf
   layers:
   - Default
   - TransparentFX

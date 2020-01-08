@@ -15,8 +15,16 @@ public class LSystemTurtle : MonoBehaviour
     public float lineLength = 5.0f;
 
     [SerializeField]
-    [Range(0.05f, 0.20f)]
+    [Range(0.05f, 0.30f)]
     public float lineWidth = 0.1f;
+
+    [SerializeField]
+    [Range(0.2f, 0.4f)]
+    public float leafWidth = 0.2f;
+
+    [SerializeField]
+    [Range(0.5f, 1.5f)]
+    public float leafLength = 0.5f;
 
     [SerializeField]
     [Range(-100, 100)]
@@ -35,6 +43,12 @@ public class LSystemTurtle : MonoBehaviour
     [Range(1,5)]
     public int numberOfGenerations = 1;
 
+    [SerializeField]
+    private Color leafColor;
+
+    [SerializeField]
+    private Color lineColor;
+
     private LineRenderer lineRenderer;
 
     private int currentLine = 0;
@@ -48,8 +62,9 @@ public class LSystemTurtle : MonoBehaviour
     private Material randomMaterial;
 
     private void Start() 
-    {
-        
+    { 
+        leafColor.a = 1;
+        lineColor.a = 1;
         Generate();
     }
 
@@ -91,12 +106,12 @@ public class LSystemTurtle : MonoBehaviour
         DrawLines();
     }
 
-    void Line()
-    {
-        var lineGo = new GameObject($"Line_{currentLine}");
+    void Line(String s)
+    {   
+        var lineGo = new GameObject($"{s}_{currentLine}");
         lineGo.transform.position = Vector3.zero;
         lineGo.transform.parent = transform;
-
+        
         lines.Add(lineGo);
 
         if (generateMultipleMaterial)
@@ -104,20 +119,51 @@ public class LSystemTurtle : MonoBehaviour
             GenerateRandomMaterial();
         }
 
+        lineGo.tag = s.Equals("Line") ? "Line" : "Leaf";
+
         LineRenderer newLine = SetupLine(lineGo);
         
         // Note: transform.position.x and y is for offset when multiple trees are placed
         // first point
-        newLine.SetPosition(0, new Vector3(state.x + transform.position.x, state.y + transform.position.y, ignoreZ ? transform.position.z : state.z + transform.position.z));        
-        
-        CheckAngles();
+        if (s.Equals("Line"))
+        {
+            newLine.SetPosition(0, new Vector3(state.x + transform.position.x, state.y + transform.position.y, ignoreZ ? transform.position.z : state.z + transform.position.z));        
+            
+            CheckAngles();
 
-        // second point
-        newLine.SetPosition(1, new Vector3(state.x + transform.position.x, state.y + transform.position.y, ignoreZ ? transform.position.z : state.z + transform.position.z));
+            // second point
+            newLine.SetPosition(1, new Vector3(state.x + transform.position.x, state.y + transform.position.y, ignoreZ ? transform.position.z : state.z + transform.position.z));
+        }
+        else if (s.Equals("Leaf"))
+        {
+            lineGo.tag = "Leaf";
+
+            newLine.positionCount = 3;
+            
+            // Note: transform.position.x and y is for offset when multiple trees are placed
+            // first point
+            newLine.SetPosition(0, new Vector3(state.x + transform.position.x, state.y + transform.position.y, ignoreZ ? transform.position.z : state.z + transform.position.z));        
+            
+            CheckAngles();
+
+            // second point
+            newLine.SetPosition(2, new Vector3(leafLength + state.x + transform.position.x, leafLength + state.y + transform.position.y, ignoreZ ? transform.position.z : state.z + transform.position.z));
+            AnimationCurve curve = new AnimationCurve();
+            curve.AddKey(0, leafWidth);
+            curve.AddKey(lineLength * (1.5f / 3.0f), leafWidth * 3.0f);
+            curve.AddKey(lineLength, leafWidth * 0.25f);
+
+            newLine.startColor = leafColor;
+            newLine.endColor = leafColor;
+            newLine.widthCurve = curve;
+
+            Vector3[] positions = new Vector3[newLine.positionCount];
+            newLine.GetPositions(positions);
+            newLine.SetPosition(1, (newLine.GetPosition(0) + newLine.GetPosition(2)) / 2.0f );    
+        }
 
         currentLine++;
-    }   
-
+    }
 
     private void CleanExistingLSystem() 
     {
@@ -165,10 +211,13 @@ public class LSystemTurtle : MonoBehaviour
             switch(c)
             {
                 case 'F':
-                Line();
+                Line("Line");
                 break;
                 case 'G':
                 Translate();
+                break;
+                case 'J':
+                Line("Leaf");
                 break;
                 case '+':
                 state.angle += angle;
@@ -193,15 +242,14 @@ public class LSystemTurtle : MonoBehaviour
 
     private LineRenderer SetupLine(GameObject lineGo)
     {
-        var newLine = lineGo.AddComponent<LineRenderer>();
+        var newLine = lineGo.AddComponent<LineRenderer>(); 
         newLine.useWorldSpace = true;
         newLine.positionCount = 2;
-        newLine.tag = "Line";
-        newLine.material = generateRandomMaterial ? randomMaterial : lineRenderer.material;
-        newLine.startColor = lineRenderer.startColor;
-        newLine.endColor = lineRenderer.endColor;
         newLine.startWidth = lineWidth;
         newLine.endWidth = lineWidth;
+        newLine.material = generateRandomMaterial ? randomMaterial : lineRenderer.material;
+        newLine.startColor = lineColor;
+        newLine.endColor = lineColor;
         newLine.numCapVertices = 5;
         return newLine;
     }
